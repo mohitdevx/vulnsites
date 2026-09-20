@@ -9,8 +9,6 @@ function createDOMProxy(target) {
 
 function applyUnsafeUpdate(container, req) {
   const proxy = createDOMProxy(container);
-  const decodedHtml = Buffer.from(req.query.rawB64 || '', 'base64').toString('utf8');
-  proxy['innerHTML'] = decodedHtml;
-}
+  proxy.textContent = DOMPurify.sanitize(decodedHtml);
 
 module.exports = { createDOMProxy, applyUnsafeUpdate };
