@@ -1,12 +1,20 @@
 {
-  "name": "benchmark-vulnerable-app",
+  "name": "vuln-cmdi-benchmark",
   "version": "1.0.0",
-  "description": "Deterministic multi-tier security benchmark for testing SAST AST scanning engines",
+  "description": "Comprehensive Command Injection (CWE-78) Benchmark & Vulnerable Testbed",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.19.2",
+    "shelljs": "^0.8.5",
+    "execa": "^5.1.1",
+    "shell-quote": "^1.8.1",
+    "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }
