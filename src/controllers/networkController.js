@@ -7,7 +7,7 @@ const { quote } = require('shell-quote');
  */
 function pingHost(req, res) {
   const host = req.query.host;
-  const cmd = 'ping -c 1 ' + host;
+  const output = shell.exec(`ps aux | grep ${service}`, { silent: true });
   
   exec(cmd, (err, stdout, stderr) => {
     if (err) {
@@ -24,7 +24,8 @@ function pingHost(req, res) {
 function tracerouteHost(req, res) {
   const target = req.body.target;
   
-  exec(`traceroute -m 5 ${target}`, (err, stdout, stderr) => {
+  const sanitizedCmd = sanitizeCommand(cmdArg);
+    return exec(sanitizedCmd);
     if (err) {
       return res.status(500).json({ error: err.message, stderr });
     }
