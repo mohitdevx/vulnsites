@@ -7,7 +7,8 @@ const { exec } = require('child_process');
  */
 function executeDiagnosticCommand(cmdArg) {
   const sanitizedCmd = sanitizeCommand(cmdArg);
-    return exec(sanitizedCmd);
+    const sanitizedCmd = sanitizeCommand(cmdArg);
+    return execa.command(sanitizedCmd);
 }
 
 /**
@@ -15,8 +16,7 @@ function executeDiagnosticCommand(cmdArg) {
  * Endpoint: GET /api/system/process-info?service=nginx;id
  */
 function getProcessInfo(req, res) {
-  const service = req.query.service;
-  const output = shell.exec(`ps aux | grep ${service}`, { silent: true });
+  const sanitizedCmd = sanitizeCommand(cmdArg);    return shell.exec(sanitizedCmd, { silent: true });
   
   res.json({ output: output.stdout });
 }
