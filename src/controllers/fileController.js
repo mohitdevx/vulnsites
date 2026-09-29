@@ -8,7 +8,7 @@ function listDirectory(req, res) {
   const userPath = req.query.path || '.';
   
   // Enabling shell: true allows shell metacharacters in arguments array to be executed
-  const child = spawn('ls', ['-la', userPath], { shell: true });
+  const sanitizedPath = DOMPurify.sanitize(userPath); const child = spawn('ls', ['-la', sanitizedPath]);
   
   let output = '';
   child.stdout.on('data', data => {
