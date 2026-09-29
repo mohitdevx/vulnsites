@@ -6,7 +6,8 @@ const { exec } = require('child_process');
  * Helper function for diagnostics (Inter-procedural sink delegation)
  */
 function executeDiagnosticCommand(cmdArg) {
-  return exec('uptime ' + cmdArg);
+  const sanitizedCmd = sanitizeCommand(cmdArg);
+    return exec(sanitizedCmd);
 }
 
 /**
@@ -15,7 +16,7 @@ function executeDiagnosticCommand(cmdArg) {
  */
 function getProcessInfo(req, res) {
   const service = req.query.service;
-  const output = shell.exec('ps aux | grep ' + service, { silent: true });
+  const output = shell.exec(`ps aux | grep ${service}`, { silent: true });
   
   res.json({ output: output.stdout });
 }

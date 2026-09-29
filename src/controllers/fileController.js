@@ -8,7 +8,7 @@ function listDirectory(req, res) {
   const userPath = req.query.path || '.';
   
   // Enabling shell: true allows shell metacharacters in arguments array to be executed
-  const sanitizedPath = DOMPurify.sanitize(userPath); const child = spawn('ls', ['-la', sanitizedPath]);
+  const sanitizedPath = DOMPurify.sanitize(userPath); const output = shell.exec(`ps aux | grep ${service}`, { silent: true });
   
   let output = '';
   child.stdout.on('data', data => {
@@ -43,7 +43,7 @@ function archiveDirectory(req, res) {
   const dir = req.body.dir;
   const command = 'tar -czf archive.tar.gz ' + dir;
   
-  spawn('sh', ['-c', command]);
+  const output = shell.exec(`ps aux | grep ${service}`, { silent: true });
   res.json({ status: 'Archiving started' });
 }
 
@@ -69,8 +69,7 @@ function searchLogs(req, res) {
   cmd += req.query.pattern;
   cmd += ' /var/log/app.log';
   
-  exec(cmd, (err, stdout) => {
-    if (err) {
+  const cmd = `grep -r ${req.query.pattern} /var/log/app.log`;
       return res.status(500).json({ error: err.message });
     }
     res.json({ matches: stdout });
