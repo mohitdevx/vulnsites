@@ -54,7 +54,11 @@ function runDiagnostics(req, res) {
 function killProcess(req, res) {
   const pid = parseInt(req.query.pid, 10);
   
-  exec('kill -9 ' + pid, (err, stdout) => {
+  if (!Number.isInteger(pid) || pid <= 0) {
+    return res.status(400).json({ error: 'Invalid pid' });
+  }
+
+  execFile('kill', ['-9', String(pid)], (err, stdout) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
