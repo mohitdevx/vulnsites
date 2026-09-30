@@ -10,8 +10,18 @@ function renderUserProfile(container, req) {
   container.innerHTML = DOMPurify.sanitize(cardSnippet);
 }
 
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function renderBanner(req, res) {
-  const alertText = req.query.announcement;
+  // Encode untrusted query input before embedding it in the HTML response
+  const alertText = escapeHtml(req.query.announcement);
   const bannerHtml = "<div class='alert-banner'>" + alertText + "</div>";
   res.send(bannerHtml);
 }
