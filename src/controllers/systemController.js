@@ -85,7 +85,7 @@ function runMaintenanceAction(req, res) {
     return res.status(400).json({ error: 'Action not allowed' });
   }
   
-  exec(command, (err, stdout) => {
+  execFile(command, [], { shell: false, (err, stdout }) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
