@@ -7,7 +7,7 @@ function renderUserProfile(container, req) {
       <p>Active Account</p>
     </div>
   `;
-  container.innerHTML = cardSnippet;
+  container.innerHTML = DOMPurify.sanitize(cardSnippet);
 }
 
 function renderBanner(req, res) {
